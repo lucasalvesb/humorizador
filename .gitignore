@@ -1,0 +1,15 @@
+# Build results
+bin/
+obj/
+out/
+
+.vscode/
+
+.env
+.env.*
+
+*.db
+*.sqlite
+*.mdf
+*.ldf
+

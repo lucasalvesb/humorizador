@@ -1,0 +1,73 @@
+@api_HostAddress = http://localhost:5102
+
+### Get all mood types
+GET {{api_HostAddress}}/mood-types
+Accept: application/json
+
+### Get all authors
+GET {{api_HostAddress}}/authors
+Accept: application/json
+
+### Get all quotes
+GET {{api_HostAddress}}/quotes
+Accept: application/json
+
+### Get random quote for anxiety
+GET {{api_HostAddress}}/quotes/mood/Anxiety/random
+Accept: application/json
+
+### Get random quote for depression
+GET {{api_HostAddress}}/quotes/mood/Depression/random
+Accept: application/json
+
+### Get all quotes for sadness
+GET {{api_HostAddress}}/quotes/mood/Sadness
+Accept: application/json
+
+### Create a new author
+POST {{api_HostAddress}}/authors
+Content-Type: application/json
+
+{
+  "name": "Thich Nhat Hanh",
+  "bio": "Vietnamese Zen master and peace activist"
+}
+
+### Create a new quote
+POST {{api_HostAddress}}/quotes
+Content-Type: application/json
+
+{
+  "text": "Breathing in, I calm my body. Breathing out, I smile.",
+  "authorId": 1,
+  "moodType": 2
+}
+
+### Get specific author by ID
+GET {{api_HostAddress}}/authors/1
+Accept: application/json
+
+### Update an author
+PUT {{api_HostAddress}}/authors/1
+Content-Type: application/json
+
+{
+  "name": "Maya Angelou (Updated)",
+  "bio": "Updated bio - American poet, memoirist, and civil rights activist"
+}
+
+### Update a quote
+PUT {{api_HostAddress}}/quotes/1
+Content-Type: application/json
+
+{
+  "text": "You are braver than you believe, stronger than you seem, and smarter than you think. (Updated)",
+  "authorId": 1,
+  "moodType": 10
+}
+
+### Delete a quote (soft delete)
+DELETE {{api_HostAddress}}/quotes/1
+
+### Delete an author
+DELETE {{api_HostAddress}}/authors/1

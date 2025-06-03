@@ -16,7 +16,9 @@ namespace api.Models
         Anger = 7,
         Fear = 8,
         Overwhelmed = 9,
-        LowSelfEsteem = 10
+        LowSelfEsteem = 10,
+        Guilt = 11,           
+        Hopelessness = 12     
     }
     public static class MoodTypeExtensions
     {
@@ -32,6 +34,8 @@ namespace api.Models
             MoodType.Fear => "Fear",
             MoodType.Overwhelmed => "Overwhelmed",
             MoodType.LowSelfEsteem => "Low Self-Esteem",
+            MoodType.Guilt => "Guilt",                    
+            MoodType.Hopelessness => "Hopelessness",      
             _ => moodType.ToString()
         };
     }

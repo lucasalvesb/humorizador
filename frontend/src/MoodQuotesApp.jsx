@@ -91,7 +91,9 @@ const MoodQuotesApp = () => {
       'Anger': { bg: '#FEF2F2', hoverBg: '#FECACA' },
       'Fear': { bg: '#FEFCE8', hoverBg: '#FEF08A' },
       'Overwhelmed': { bg: '#F0FDFA', hoverBg: '#CCFBF1' },
-      'Low Self-Esteem': { bg: '#ECFDF5', hoverBg: '#D1FAE5' }
+      'Low Self-Esteem': { bg: '#ECFDF5', hoverBg: '#D1FAE5' },
+      'Guilt': { bg: '#F5F3FF', hoverBg: '#EDE9FE' },
+      'Hopelessness': { bg: '#FDF4FF', hoverBg: '#FAE8FF' }
     };
     return styles[moodType] || { bg: '#F9FAFB', hoverBg: '#F3F4F6' };
   };

@@ -184,17 +184,46 @@ namespace api.Extensions
             })
             .WithName("GetQuotesByMoodType");
 
-            app.MapGet("/quotes/mood/{moodType}/random", async (MoodType moodType, MoodQuotesDbContext db) =>
+            app.MapGet("/quotes/mood/{moodType}/random", async (MoodType moodType, string clientId, MoodQuotesDbContext db) =>
             {
-                var quotes = await db.Quotes
-                    .Include(q => q.Author)
+                var allQuoteIdsInMood = await db.Quotes
                     .Where(q => q.MoodType == moodType && q.IsActive)
+                    .Select(q => q.Id)
                     .ToListAsync();
 
-                if (!quotes.Any())
+                if (!allQuoteIdsInMood.Any())
                     return Results.NotFound($"No quotes found for mood type: {moodType}");
 
-                var randomQuote = quotes[Random.Shared.Next(quotes.Count)];
+                var seenQuoteIds = await db.ClientSeenQuotes
+                    .Where(sq => sq.ClientId == clientId && allQuoteIdsInMood.Contains(sq.QuoteId))
+                    .Select(sq => sq.QuoteId)
+                    .ToListAsync();
+
+                var unseenQuoteIds = allQuoteIdsInMood.Except(seenQuoteIds).ToList();
+
+                if (!unseenQuoteIds.Any())
+                {
+                    // User has seen all quotes in this mood, so reset their history for this mood
+                    var seenQuotesToRemove = await db.ClientSeenQuotes
+                        .Where(sq => sq.ClientId == clientId && allQuoteIdsInMood.Contains(sq.QuoteId))
+                        .ToListAsync();
+                    
+                    db.ClientSeenQuotes.RemoveRange(seenQuotesToRemove);
+                    await db.SaveChangesAsync();
+
+                    unseenQuoteIds = allQuoteIdsInMood;
+                }
+
+                var randomQuoteId = unseenQuoteIds[Random.Shared.Next(unseenQuoteIds.Count)];
+
+                var randomQuote = await db.Quotes
+                    .Include(q => q.Author)
+                    .FirstAsync(q => q.Id == randomQuoteId);
+
+                // Mark the quote as seen for the client
+                db.ClientSeenQuotes.Add(new ClientSeenQuote { ClientId = clientId, QuoteId = randomQuoteId });
+                await db.SaveChangesAsync();
+
                 var response = new QuoteResponse(
                     randomQuote.Id,
                     randomQuote.Text,

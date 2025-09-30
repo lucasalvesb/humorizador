@@ -3,11 +3,11 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 # Copy csproj file and restore dependencies
-COPY *.csproj ./
+COPY api/*.csproj ./
 RUN dotnet restore
 
 # Copy everything else and build the app
-COPY . ./
+COPY api/. ./
 RUN dotnet publish -c Release -o /app/publish
 
 # Use the official .NET 9 runtime image for running

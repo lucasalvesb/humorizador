@@ -16,7 +16,7 @@ import { FiRefreshCw, FiHeart, FiSun, FiAlertCircle } from 'react-icons/fi';
 import { v4 as uuidv4 } from 'uuid';
 
 // API base URL - adjust this to match your backend
-const API_BASE_URL = 'http://localhost:5102';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://humorizador.onrender.com';
 
 // Keyframes for animations
 const fadeIn = keyframes`

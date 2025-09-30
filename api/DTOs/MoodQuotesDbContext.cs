@@ -12,8 +12,9 @@ namespace api.DTOs
     {
         public MoodQuotesDbContext(DbContextOptions<MoodQuotesDbContext> options) : base(options) { }
 
-        public DbSet<Author> Authors { get; set; }
         public DbSet<Quote> Quotes { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<ClientSeenQuote> ClientSeenQuotes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
